@@ -1,0 +1,18 @@
+name: CI Pipeline
+on:
+  workflow_dispatch:
+
+jobs:
+  ci:
+    - name: Clone jfrog-devops repo
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ github.repository_owner }}/jfrog-devops
+        ref: v1.0.0
+        fetch-depth: 0
+        path: devops
+        token: ${{ steps.generate_token.outputs.token }}
+
+    - name: Run CI using reusable workflow
+      uses: $GITHUB_WORKSPACE/devops/.github/reusable_workflows/ci@v1.0.0
+      
